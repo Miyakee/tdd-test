@@ -1,0 +1,12 @@
+!gradle/wrapper/gradle-wrapper.jar
+.gradle
+build/
+classes/
+bin/
+dataSources/
+.ideaDataSources/
+.DS_Store
+
+
+### IntelliJ IDEA ###
+.idea
