@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 import pojo.Car;
+import pojo.ParkingTickets;
 
 public class GraduateParkingBoy {
   private List<ParkingLog> parkingLogs;
-  private int currentlyParkingSpace = 0;
 
   public GraduateParkingBoy() {
     List<ParkingLog> parkingLogs = new ArrayList<>();
@@ -12,24 +12,22 @@ public class GraduateParkingBoy {
     this.parkingLogs = parkingLogs;
   }
 
-  public int parkingCar(Car car){
-    if(!parkingLogs.get(currentlyParkingSpace).parkingCar(car)){
+  public ParkingTickets parkingCar(Car car){
+    int currentlyParkingLogSize = parkingLogs.size();
+    if(!parkingLogs.get(currentlyParkingLogSize-1).parkingCar(car)){
       ParkingLog newParkingLog = new ParkingLog();
       newParkingLog.parkingCar(car);
       parkingLogs.add(newParkingLog);
-      this.currentlyParkingSpace++;
+      currentlyParkingLogSize++;
     }
-    return this.currentlyParkingSpace;
+    return new ParkingTickets(currentlyParkingLogSize,car.getCarNO());
+
   }
 
-  public Car pickUpCar(String carNO){
-    for (ParkingLog parkingLog:parkingLogs){
-      Car car = parkingLog.pickUpCar(carNO);
-      if(car!=null){
-        return car;
-      }
-    }
-    return null;
+  public Car pickUpCar(ParkingTickets parkingTickets){
+    return parkingLogs.size() >= parkingTickets.getParkingNo() && parkingLogs.size()>0
+        ?parkingLogs.get(parkingTickets.getParkingNo()-1).pickUpCar(parkingTickets.getCarNO())
+        : null;
   }
 
 }

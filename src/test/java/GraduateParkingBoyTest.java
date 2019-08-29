@@ -1,17 +1,18 @@
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pojo.Car;
+import pojo.ParkingTickets;
 
- class GraduateParkingBoyTest {
+class GraduateParkingBoyTest {
 
   @Test
   void park_into_the_first_when_parking_log_is_not_full(){
     GraduateParkingBoy graduateParkingBoy= new GraduateParkingBoy();
     for (int i =0 ;i<11;i++){
       Car car = new Car("0"+i);
-      int parkingSpaceNo = graduateParkingBoy.parkingCar(car);
+      ParkingTickets parkingTickets = graduateParkingBoy.parkingCar(car);
       if(i< 10){
-        Assertions.assertThat(parkingSpaceNo).isEqualTo(0);
+        Assertions.assertThat(parkingTickets.getParkingNo()).isEqualTo(1);
       }
 
     }
@@ -23,9 +24,9 @@ import pojo.Car;
 
     for (int i =0 ;i<11;i++){
       Car car = new Car("0"+i);
-      int parkingSpaceNo = graduateParkingBoy.parkingCar(car);
+      ParkingTickets parkingTickets = graduateParkingBoy.parkingCar(car);
       if(i== 10){
-        Assertions.assertThat(parkingSpaceNo).isEqualTo(1);
+        Assertions.assertThat(parkingTickets.getParkingNo()).isEqualTo(2);
       }
 
     }
@@ -36,7 +37,8 @@ import pojo.Car;
      GraduateParkingBoy graduateParkingBoy= new GraduateParkingBoy();
      Car car = new Car("007");
      graduateParkingBoy.parkingCar(car);
-     Car pickUpCar = graduateParkingBoy.pickUpCar("007");
+     ParkingTickets parkingTickets= new ParkingTickets(1,"007");
+     Car pickUpCar = graduateParkingBoy.pickUpCar(parkingTickets);
      Assertions.assertThat(pickUpCar.getCarNO()).isEqualTo("007");
    }
 
@@ -46,10 +48,13 @@ import pojo.Car;
      GraduateParkingBoy graduateParkingBoy= new GraduateParkingBoy();
      for (int i =0 ;i<11;i++){
        Car car = new Car("0"+i);
-       graduateParkingBoy.parkingCar(car);
+       if(i == 10) {
+         ParkingTickets parkingTickets = graduateParkingBoy.parkingCar(car);
+         Car pickUpCar = graduateParkingBoy.pickUpCar(parkingTickets);
+         Assertions.assertThat(pickUpCar.getCarNO()).isEqualTo("010");
+
+       }
      }
-     Car pickUpCar = graduateParkingBoy.pickUpCar("010");
-     Assertions.assertThat(pickUpCar.getCarNO()).isEqualTo("010");
 
    }
 
@@ -58,18 +63,18 @@ import pojo.Car;
      GraduateParkingBoy graduateParkingBoy= new GraduateParkingBoy();
      Car car = new Car("007");
      graduateParkingBoy.parkingCar(car);
-     Car pickUpCar = graduateParkingBoy.pickUpCar("008");
+     Car pickUpCar = graduateParkingBoy.pickUpCar(new ParkingTickets(1,"008"));
      Assertions.assertThat(pickUpCar).isEqualTo(null);
    }
 
    @Test
-   void pick_up_car_from_parking_space_if_it_not_exist_when_multiple_parking_log(){
+   void pick_up_car_from_parking_space_if_parking_log_number_is_not_exist(){
      GraduateParkingBoy graduateParkingBoy= new GraduateParkingBoy();
      for (int i =0 ;i<11;i++){
        Car car = new Car("0"+i);
        graduateParkingBoy.parkingCar(car);
      }
-     Car pickUpCar = graduateParkingBoy.pickUpCar("013");
+     Car pickUpCar = graduateParkingBoy.pickUpCar(new ParkingTickets(6,"008"));
      Assertions.assertThat(pickUpCar).isEqualTo(null);
    }
 }
