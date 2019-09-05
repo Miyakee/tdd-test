@@ -1,4 +1,4 @@
-package pojo;
+package parking;
 
 public class ParkingTickets {
   private int parkingNo;

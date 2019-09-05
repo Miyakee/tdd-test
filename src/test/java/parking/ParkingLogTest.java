@@ -1,5 +1,8 @@
+package parking;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import parking.ParkingLog;
 import pojo.Car;
 
  class ParkingLogTest {
